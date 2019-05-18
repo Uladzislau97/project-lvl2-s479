@@ -13,5 +13,8 @@ lint:
 test:
 	npm test
 
-watch:
-	jest --watch
+test-watch:
+	npm test -- --watch
+
+test-coverage:
+	npm test -- --coverage
