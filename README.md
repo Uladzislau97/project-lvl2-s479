@@ -6,3 +6,6 @@
 #
 ##### INSTALLATION
 [![asciicast](https://asciinema.org/a/66pBauJ1coKy4qYnL5LJpXfew.svg)](https://asciinema.org/a/66pBauJ1coKy4qYnL5LJpXfew)
+#
+##### COMPARING JSON FILES
+[![asciicast](https://asciinema.org/a/g19thvwCMYVF8KwAN2ByoAqeK.svg)](https://asciinema.org/a/g19thvwCMYVF8KwAN2ByoAqeK)
