@@ -1,9 +1,17 @@
 #!/usr/bin/env node
-const program = require('commander');
+import program from 'commander';
+import path from 'path';
+import gendiff from '..';
 
 program
+  .version('1.0.1')
   .arguments('<firstConfig> <secondConfig>')
+  .action((firstConfigPath, secondConfigPath) => {
+    const firstConfigFullPath = path.resolve(firstConfigPath);
+    const secondConfigFullPath = path.resolve(secondConfigPath);
+    const result = gendiff(firstConfigFullPath, secondConfigFullPath);
+    console.log(result);
+  })
   .description('Compares two configuration files and shows a difference.')
-  .option('-V, --version', 'output the version number')
   .option('-f, --format [type]', 'output format')
   .parse(process.argv);
