@@ -1,5 +1,7 @@
 import fs from 'fs';
 import _ from 'lodash';
+import path from 'path';
+import parse from './parsers';
 
 const buildDiffData = (beforeData, afterData) => {
   const beforeObjectKeys = Object.keys(beforeData);
@@ -32,11 +34,15 @@ const renderDiff = (diffData) => {
   return ['{', ...result, '}'].join('\n');
 };
 
+const getFileData = (filepath) => {
+  const extname = path.extname(filepath);
+  const content = fs.readFileSync(filepath);
+  return parse(content, extname);
+};
+
 const gendiff = (beforePath, afterPath) => {
-  const beforeContent = fs.readFileSync(beforePath);
-  const afterContent = fs.readFileSync(afterPath);
-  const beforeData = JSON.parse(beforeContent);
-  const afterData = JSON.parse(afterContent);
+  const beforeData = getFileData(beforePath);
+  const afterData = getFileData(afterPath);
   const diffData = buildDiffData(beforeData, afterData);
   return renderDiff(diffData);
 };
