@@ -36,7 +36,7 @@ const renderDiff = (diffData) => {
 
 const getFileData = (filepath) => {
   const extname = path.extname(filepath);
-  const content = fs.readFileSync(filepath);
+  const content = fs.readFileSync(filepath, 'utf8');
   return parse(content, extname);
 };
 
