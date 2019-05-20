@@ -12,3 +12,6 @@
 #
 ##### COMPARING YAML FILES
 [![asciicast](https://asciinema.org/a/HyLmJo1Z7LdFm9VJ3Gitimxqz.svg)](https://asciinema.org/a/HyLmJo1Z7LdFm9VJ3Gitimxqz)
+#
+##### COMPARING INI FILES
+[![asciicast](https://asciinema.org/a/lIgbaiwhFarOHceASFW1tN8RF.svg)](https://asciinema.org/a/lIgbaiwhFarOHceASFW1tN8RF)
