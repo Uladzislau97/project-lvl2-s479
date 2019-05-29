@@ -15,3 +15,6 @@
 #
 ##### COMPARING INI FILES
 [![asciicast](https://asciinema.org/a/lIgbaiwhFarOHceASFW1tN8RF.svg)](https://asciinema.org/a/lIgbaiwhFarOHceASFW1tN8RF)
+#
+##### COMPARING FILES WITH NESTINGS
+[![asciicast](https://asciinema.org/a/s0n2X2nG4BImgy9mOSMtYOtQL.svg)](https://asciinema.org/a/s0n2X2nG4BImgy9mOSMtYOtQL)
