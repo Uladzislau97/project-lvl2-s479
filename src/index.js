@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import parse from './parsers';
 import buildDiffAst from './builder';
-import renderDiffAst from './renderer';
+import formatNested from './formatters/nested';
 
 const getFileData = (filepath) => {
   const extname = path.extname(filepath);
@@ -14,7 +14,7 @@ const gendiff = (beforePath, afterPath) => {
   const beforeData = getFileData(beforePath);
   const afterData = getFileData(afterPath);
   const diffData = buildDiffAst(beforeData, afterData);
-  return renderDiffAst(diffData);
+  return formatNested(diffData);
 };
 
 export default gendiff;

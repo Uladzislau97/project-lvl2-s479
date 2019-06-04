@@ -1,35 +1,45 @@
 import _ from 'lodash';
 
-const buildPropertyNode = (key, value, sign = ' ') => ({
-  type: 'Property', sign, key, value,
+const buildPropertyNode = (key, value, state) => ({
+  type: 'Property', key, value, state,
 });
 
 const buildDiffAst = (beforeData, afterData) => {
   const beforeObjectKeys = Object.keys(beforeData);
   const afterObjectKeys = Object.keys(afterData);
-  const allKeys = _.concat(beforeObjectKeys, afterObjectKeys);
-  const keysSet = new Set(allKeys);
-  const uniqKeys = [...keysSet];
-  const properties = uniqKeys.reduce((acc, key) => {
+  const addedKeys = _.difference(afterObjectKeys, beforeObjectKeys);
+  const changedProperties = beforeObjectKeys.reduce((acc, key) => {
     if (beforeData[key] instanceof Object && afterData[key] instanceof Object) {
-      const propertyNode = buildPropertyNode(key, buildDiffAst(beforeData[key], afterData[key]));
+      const value = buildDiffAst(beforeData[key], afterData[key]);
+      const state = 'complex';
+      const propertyNode = buildPropertyNode(key, value, state);
       return [...acc, propertyNode];
     }
-    if (!_.has(beforeData, key) || !_.has(afterData, key)) {
-      const propertyNode = _.has(beforeData, key)
-        ? buildPropertyNode(key, beforeData[key], '-')
-        : buildPropertyNode(key, afterData[key], '+');
+    if (!_.has(afterData, key)) {
+      const value = beforeData[key];
+      const state = 'removed';
+      const propertyNode = buildPropertyNode(key, value, state);
       return [...acc, propertyNode];
     }
     if (beforeData[key] === afterData[key]) {
-      const propertyNode = buildPropertyNode(key, beforeData[key]);
+      const value = beforeData[key];
+      const state = 'unchanged';
+      const propertyNode = buildPropertyNode(key, value, state);
       return [...acc, propertyNode];
     }
-    const deletedPropertyNode = buildPropertyNode(key, beforeData[key], '-');
-    const addedPropertyNode = buildPropertyNode(key, afterData[key], '+');
-    return [...acc, deletedPropertyNode, addedPropertyNode];
+    const value = { old: beforeData[key], new: afterData[key] };
+    const state = 'changed';
+    const propertyNode = buildPropertyNode(key, value, state);
+    return [...acc, propertyNode];
   }, []);
-  return { type: 'Diff', properties };
+  const addedProperties = addedKeys.reduce((acc, key) => {
+    const value = afterData[key];
+    const state = 'added';
+    const propertyNode = buildPropertyNode(key, value, state);
+    return [...acc, propertyNode];
+  }, []);
+  const properties = _.concat(changedProperties, addedProperties);
+  return { type: 'Object', properties };
 };
 
 export default buildDiffAst;
