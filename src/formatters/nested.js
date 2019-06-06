@@ -1,55 +1,61 @@
-const indentSize = 4;
-const smallIndentSize = 2;
+import AstNodeAttributes from '../ast-node-attributes';
 
-const renderObject = (properties, indentsNumber) => {
-  const indentation = ' '.repeat(indentsNumber);
+const indent = ' ';
+const initialIndentSize = 0;
+const smallIndentSize = 2;
+const bigIndentSize = 4;
+
+const stringifyObjectByProperties = (properties, indentSize) => {
+  const indentation = indent.repeat(indentSize);
   return `{\n${properties}\n${indentation}}`;
 };
 
-const stringify = (data, indentsNumber) => {
+const stringify = (data, indentSize) => {
   if (!(data instanceof Object)) {
     return data;
   }
   const properties = Object.keys(data)
     .map((key) => {
-      const value = stringify(data[key], indentsNumber + indentSize);
-      const indentation = ' '.repeat(indentsNumber + indentSize);
+      const value = stringify(data[key], indentSize + bigIndentSize);
+      const indentation = indent.repeat(indentSize + bigIndentSize);
       return `${indentation}${key}: ${value}`;
     });
-  return renderObject(properties, indentsNumber);
+  return stringifyObjectByProperties(properties, indentSize);
 };
 
-const formatNested = (node, indentsNumber = 0) => {
-  if (node.type === 'Object') {
-    const properties = node.properties.map(
-      prop => formatNested(prop, indentsNumber + smallIndentSize),
+const renderIter = (data, indentSize) => {
+  if (data.type === AstNodeAttributes.type.object) {
+    const properties = data.properties.map(
+      prop => renderIter(prop, indentSize + smallIndentSize),
     ).join('\n');
-    return renderObject(properties, indentsNumber);
+    return stringifyObjectByProperties(properties, indentSize);
   }
-  if (node.state === 'complex') {
-    const value = formatNested(node.value, indentsNumber + smallIndentSize);
-    const indentation = ' '.repeat(indentsNumber);
-    return `${indentation}  ${node.key}: ${value}`;
+  if (data.state === AstNodeAttributes.propertyState.complex) {
+    const value = renderIter(data.value, indentSize + smallIndentSize);
+    const indentation = indent.repeat(indentSize);
+    return `${indentation}  ${data.key}: ${value}`;
   }
-  if (node.state === 'unchanged') {
-    const value = stringify(node.value, indentsNumber + smallIndentSize);
-    const indentation = ' '.repeat(indentsNumber);
-    return `${indentation}  ${node.key}: ${value}`;
+  if (data.state === AstNodeAttributes.propertyState.unchanged) {
+    const value = stringify(data.value, indentSize + smallIndentSize);
+    const indentation = indent.repeat(indentSize);
+    return `${indentation}  ${data.key}: ${value}`;
   }
-  if (node.state === 'removed') {
-    const value = stringify(node.value, indentsNumber + smallIndentSize);
-    const indentation = ' '.repeat(indentsNumber);
-    return `${indentation}- ${node.key}: ${value}`;
+  if (data.state === AstNodeAttributes.propertyState.removed) {
+    const value = stringify(data.value, indentSize + smallIndentSize);
+    const indentation = indent.repeat(indentSize);
+    return `${indentation}- ${data.key}: ${value}`;
   }
-  if (node.state === 'added') {
-    const value = stringify(node.value, indentsNumber + smallIndentSize);
-    const indentation = ' '.repeat(indentsNumber);
-    return `${indentation}+ ${node.key}: ${value}`;
+  if (data.state === AstNodeAttributes.propertyState.added) {
+    const value = stringify(data.value, indentSize + smallIndentSize);
+    const indentation = indent.repeat(indentSize);
+    return `${indentation}+ ${data.key}: ${value}`;
   }
-  const oldValue = stringify(node.value.old, indentsNumber + smallIndentSize);
-  const newValue = stringify(node.value.new, indentsNumber + smallIndentSize);
-  const indentation = ' '.repeat(indentsNumber);
-  return `${indentation}- ${node.key}: ${oldValue}\n${indentation}+ ${node.key}: ${newValue}`;
+  const oldValue = stringify(data.value.old, indentSize + smallIndentSize);
+  const newValue = stringify(data.value.new, indentSize + smallIndentSize);
+  const indentation = indent.repeat(indentSize);
+  return `${indentation}- ${data.key}: ${oldValue}\n${indentation}+ ${data.key}: ${newValue}`;
 };
 
-export default formatNested;
+const renderInNestedFormat = data => renderIter(data, initialIndentSize);
+
+export default renderInNestedFormat;
