@@ -9,7 +9,7 @@ program
   .action((firstConfigPath, secondConfigPath) => {
     const firstConfigFullPath = path.resolve(firstConfigPath);
     const secondConfigFullPath = path.resolve(secondConfigPath);
-    const result = gendiff(firstConfigFullPath, secondConfigFullPath);
+    const result = gendiff(firstConfigFullPath, secondConfigFullPath, program.format);
     console.log(result);
   })
   .description('Compares two configuration files and shows a difference.')
