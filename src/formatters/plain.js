@@ -6,9 +6,6 @@ const stringify = (data) => {
   if (data instanceof Object) {
     return '[complex value]';
   }
-  if (parseInt(data, 10)) {
-    return data;
-  }
   if (typeof data === 'string') {
     return `'${data}'`;
   }
