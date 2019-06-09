@@ -1,5 +1,5 @@
 import yaml from 'js-yaml';
-import ini from 'ini';
+import ini from 'ini-config-parser';
 
 const parse = (content, extname) => {
   if (extname === '.yml') {
