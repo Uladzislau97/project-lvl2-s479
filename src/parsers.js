@@ -1,14 +1,12 @@
 import yaml from 'js-yaml';
 import ini from 'ini-config-parser';
 
-const parse = (content, extname) => {
-  if (extname === '.yml') {
-    return yaml.safeLoad(content);
-  }
-  if (extname === '.ini') {
-    return ini.parse(content);
-  }
-  return JSON.parse(content);
+const parseByExtname = {
+  '.yml': yaml.safeLoad,
+  '.ini': ini.parse,
+  '.json': JSON.parse,
 };
+
+const parse = (content, extname) => parseByExtname[extname](content);
 
 export default parse;
