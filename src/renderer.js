@@ -1,13 +1,11 @@
 import { renderInNestedFormat, renderInPlainFormat, renderInJSONFormat } from './formatters';
 
-const renderDiff = (data, format) => {
-  if (format === 'plain') {
-    return renderInPlainFormat(data);
-  }
-  if (format === 'json') {
-    return renderInJSONFormat(data);
-  }
-  return renderInNestedFormat(data);
+const renderByDataFormat = {
+  plain: renderInPlainFormat,
+  json: renderInJSONFormat,
+  nested: renderInNestedFormat,
 };
+
+const renderDiff = (data, format) => renderByDataFormat[format](data);
 
 export default renderDiff;
