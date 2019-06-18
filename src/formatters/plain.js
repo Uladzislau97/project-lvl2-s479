@@ -1,4 +1,4 @@
-import AstNodeAttributes from '../ast-node-attributes';
+import NodeTypes from '../node-types';
 
 const initialParents = [];
 
@@ -13,25 +13,25 @@ const stringify = (data) => {
 };
 
 const renderIter = (data, parents) => {
-  if (data.type === AstNodeAttributes.type.object) {
+  if (data.type === NodeTypes.object) {
     return data.properties
-      .filter(prop => prop.state !== AstNodeAttributes.propertyState.unchanged)
+      .filter(prop => prop.type !== NodeTypes.unchanged)
       .map(prop => renderIter(prop, parents))
       .join('\n');
   }
-  if (data.state === AstNodeAttributes.propertyState.complex) {
+  if (data.type === NodeTypes.complex) {
     const newParents = [...parents, data.key];
     return data.value.properties
-      .filter(prop => prop.state !== AstNodeAttributes.propertyState.unchanged)
+      .filter(prop => prop.type !== NodeTypes.unchanged)
       .map(prop => renderIter(prop, newParents))
       .join('\n');
   }
   const propertyName = [...parents, data.key].join('.');
-  if (data.state === AstNodeAttributes.propertyState.added) {
+  if (data.type === NodeTypes.added) {
     const value = stringify(data.value);
     return `Property '${propertyName}' was added with value: ${value}`;
   }
-  if (data.state === AstNodeAttributes.propertyState.removed) {
+  if (data.type === NodeTypes.removed) {
     return `Property '${propertyName}' was removed`;
   }
   const oldValue = stringify(data.value.old);

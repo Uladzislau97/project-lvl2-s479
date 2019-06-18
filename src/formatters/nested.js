@@ -1,4 +1,4 @@
-import AstNodeAttributes from '../ast-node-attributes';
+import NodeTypes from '../node-types';
 
 const indent = ' ';
 const initialIndentSize = 0;
@@ -24,28 +24,28 @@ const stringify = (data, indentSize) => {
 };
 
 const renderIter = (data, indentSize) => {
-  if (data.type === AstNodeAttributes.type.object) {
+  if (data.type === NodeTypes.object) {
     const properties = data.properties.map(
       prop => renderIter(prop, indentSize + smallIndentSize),
     ).join('\n');
     return stringifyObjectByProperties(properties, indentSize);
   }
-  if (data.state === AstNodeAttributes.propertyState.complex) {
+  if (data.type === NodeTypes.complex) {
     const value = renderIter(data.value, indentSize + smallIndentSize);
     const indentation = indent.repeat(indentSize);
     return `${indentation}  ${data.key}: ${value}`;
   }
-  if (data.state === AstNodeAttributes.propertyState.unchanged) {
+  if (data.type === NodeTypes.unchanged) {
     const value = stringify(data.value, indentSize + smallIndentSize);
     const indentation = indent.repeat(indentSize);
     return `${indentation}  ${data.key}: ${value}`;
   }
-  if (data.state === AstNodeAttributes.propertyState.removed) {
+  if (data.type === NodeTypes.removed) {
     const value = stringify(data.value, indentSize + smallIndentSize);
     const indentation = indent.repeat(indentSize);
     return `${indentation}- ${data.key}: ${value}`;
   }
-  if (data.state === AstNodeAttributes.propertyState.added) {
+  if (data.type === NodeTypes.added) {
     const value = stringify(data.value, indentSize + smallIndentSize);
     const indentation = indent.repeat(indentSize);
     return `${indentation}+ ${data.key}: ${value}`;

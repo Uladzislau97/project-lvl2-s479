@@ -1,9 +1,7 @@
 import _ from 'lodash';
-import AstNodeAttributes from './ast-node-attributes';
+import NodeTypes from './node-types';
 
-const buildPropertyNode = (key, value, state) => ({
-  type: AstNodeAttributes.type.property, key, value, state,
-});
+const buildPropertyNode = (key, value, type) => ({ type, key, value });
 
 const buildDiffAst = (beforeData, afterData) => {
   const beforeObjectKeys = Object.keys(beforeData);
@@ -12,35 +10,35 @@ const buildDiffAst = (beforeData, afterData) => {
   const changedProperties = beforeObjectKeys.reduce((acc, key) => {
     if (beforeData[key] instanceof Object && afterData[key] instanceof Object) {
       const value = buildDiffAst(beforeData[key], afterData[key]);
-      const state = AstNodeAttributes.propertyState.complex;
-      const propertyNode = buildPropertyNode(key, value, state);
+      const type = NodeTypes.complex;
+      const propertyNode = buildPropertyNode(key, value, type);
       return [...acc, propertyNode];
     }
     if (!_.has(afterData, key)) {
       const value = beforeData[key];
-      const state = AstNodeAttributes.propertyState.removed;
-      const propertyNode = buildPropertyNode(key, value, state);
+      const type = NodeTypes.removed;
+      const propertyNode = buildPropertyNode(key, value, type);
       return [...acc, propertyNode];
     }
     if (beforeData[key] === afterData[key]) {
       const value = beforeData[key];
-      const state = AstNodeAttributes.propertyState.unchanged;
-      const propertyNode = buildPropertyNode(key, value, state);
+      const type = NodeTypes.unchanged;
+      const propertyNode = buildPropertyNode(key, value, type);
       return [...acc, propertyNode];
     }
     const value = { old: beforeData[key], new: afterData[key] };
-    const state = AstNodeAttributes.propertyState.updated;
-    const propertyNode = buildPropertyNode(key, value, state);
+    const type = NodeTypes.updated;
+    const propertyNode = buildPropertyNode(key, value, type);
     return [...acc, propertyNode];
   }, []);
   const addedProperties = addedKeys.reduce((acc, key) => {
     const value = afterData[key];
-    const state = AstNodeAttributes.propertyState.added;
-    const propertyNode = buildPropertyNode(key, value, state);
+    const type = NodeTypes.added;
+    const propertyNode = buildPropertyNode(key, value, type);
     return [...acc, propertyNode];
   }, []);
   const properties = _.concat(changedProperties, addedProperties);
-  return { type: AstNodeAttributes.type.object, properties };
+  return { type: NodeTypes.object, properties };
 };
 
 export default buildDiffAst;
