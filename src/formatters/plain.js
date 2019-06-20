@@ -1,7 +1,5 @@
 import NodeTypes from '../node-types';
 
-const initialParents = [];
-
 const stringify = (data) => {
   if (data instanceof Object) {
     return '[complex value]';
@@ -45,6 +43,6 @@ const renderIter = (data, parents) => {
   }
 };
 
-const renderInPlainFormat = data => renderIter(data, initialParents);
+const renderInPlainFormat = data => renderIter(data, []);
 
 export default renderInPlainFormat;

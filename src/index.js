@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import parse from './parsers';
 import buildDiffAst from './builder';
-import renderDiff from './renderer';
+import renderDiff from './formatters';
 
 const getFileData = (filepath) => {
   const extname = path.extname(filepath);

@@ -1,5 +1,12 @@
 import renderInNestedFormat from './nested';
 import renderInPlainFormat from './plain';
-import renderInJSONFormat from './json';
 
-export { renderInNestedFormat, renderInPlainFormat, renderInJSONFormat };
+const renderByDataFormat = {
+  plain: renderInPlainFormat,
+  json: JSON.stringify,
+  nested: renderInNestedFormat,
+};
+
+const renderDiff = (data, format) => renderByDataFormat[format](data);
+
+export default renderDiff;
