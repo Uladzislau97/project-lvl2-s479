@@ -34,12 +34,13 @@ const renderIter = (data, parents) => {
       const propertyName = [...parents, data.key].join('.');
       return `Property '${propertyName}' was removed`;
     }
-    default: {
+    case NodeTypes.updated: {
       const propertyName = [...parents, data.key].join('.');
       const oldValue = stringify(data.value.old);
       const newValue = stringify(data.value.new);
       return `Property '${propertyName}' was updated. From ${oldValue} to ${newValue}`;
     }
+    default: return '';
   }
 };
 

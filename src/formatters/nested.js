@@ -50,12 +50,13 @@ const renderIter = (data, indentSize) => {
       const indentation = indent.repeat(indentSize);
       return `${indentation}+ ${data.key}: ${value}`;
     }
-    default: {
+    case NodeTypes.updated: {
       const oldValue = stringify(data.value.old, indentSize + smallIndentSize);
       const newValue = stringify(data.value.new, indentSize + smallIndentSize);
       const indentation = indent.repeat(indentSize);
       return `${indentation}- ${data.key}: ${oldValue}\n${indentation}+ ${data.key}: ${newValue}`;
     }
+    default: return '';
   }
 };
 
