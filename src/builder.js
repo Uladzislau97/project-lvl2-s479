@@ -2,9 +2,7 @@ import _ from 'lodash';
 import NodeTypes from './node-types';
 
 const buildDiffAst = (beforeData, afterData) => {
-  const beforeObjectKeys = Object.keys(beforeData);
-  const afterObjectKeys = Object.keys(afterData);
-  const uniqKeys = _.union(beforeObjectKeys, afterObjectKeys);
+  const uniqKeys = _.union(_.keys(beforeData), _.keys(afterData));
   const properties = uniqKeys.reduce((acc, key) => {
     if (beforeData[key] instanceof Object && afterData[key] instanceof Object) {
       const value = buildDiffAst(beforeData[key], afterData[key]);
