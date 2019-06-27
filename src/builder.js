@@ -1,39 +1,67 @@
 import _ from 'lodash';
 import NodeTypes from './node-types';
 
+const detectType = (key, beforeData, afterData) => {
+  if (_.isObject(beforeData[key]) && _.isObject(afterData[key])) {
+    return NodeTypes.complex;
+  }
+  if (_.has(beforeData, key) && !_.has(afterData, key)) {
+    return NodeTypes.removed;
+  }
+  if (!_.has(beforeData, key) && _.has(afterData, key)) {
+    return NodeTypes.added;
+  }
+  if (beforeData[key] === afterData[key]) {
+    return NodeTypes.unchanged;
+  }
+  if (beforeData[key] !== afterData[key]) {
+    return NodeTypes.updated;
+  }
+  return '';
+};
+
 const buildDiffAst = (beforeData, afterData) => {
   const uniqKeys = _.union(_.keys(beforeData), _.keys(afterData));
   const properties = uniqKeys.reduce((acc, key) => {
-    if (beforeData[key] instanceof Object && afterData[key] instanceof Object) {
-      const value = buildDiffAst(beforeData[key], afterData[key]);
-      const type = NodeTypes.complex;
-      const propertyNode = { type, key, value };
-      return [...acc, propertyNode];
+    const type = detectType(key, beforeData, afterData);
+    switch (type) {
+      case NodeTypes.complex: {
+        const value = buildDiffAst(beforeData[key], afterData[key]);
+        const propertyNode = { type, key, value };
+        return [...acc, propertyNode];
+      }
+      case NodeTypes.removed: {
+        const value = beforeData[key];
+        const propertyNode = { type, key, value };
+        return [...acc, propertyNode];
+      }
+      case NodeTypes.added: {
+        const value = afterData[key];
+        const propertyNode = { type, key, value };
+        return [...acc, propertyNode];
+      }
+      case NodeTypes.unchanged: {
+        const value = beforeData[key];
+        const propertyNode = { type, key, value };
+        return [...acc, propertyNode];
+      }
+      case NodeTypes.updated: {
+        const oldValue = beforeData[key];
+        const oldType = NodeTypes.removed;
+        const oldPropertyNode = { type: oldType, key, value: oldValue };
+        const newValue = afterData[key];
+        const newType = NodeTypes.added;
+        const newPropertyNode = { type: newType, key, value: newValue };
+        const children = [oldPropertyNode, newPropertyNode];
+        const propertyNode = { type, key, children };
+        return [...acc, propertyNode];
+      }
+      default: {
+        return {};
+      }
     }
-    if (_.has(beforeData, key) && !_.has(afterData, key)) {
-      const value = beforeData[key];
-      const type = NodeTypes.removed;
-      const propertyNode = { type, key, value };
-      return [...acc, propertyNode];
-    }
-    if (!_.has(beforeData, key) && _.has(afterData, key)) {
-      const value = afterData[key];
-      const type = NodeTypes.added;
-      const propertyNode = { type, key, value };
-      return [...acc, propertyNode];
-    }
-    if (beforeData[key] === afterData[key]) {
-      const value = beforeData[key];
-      const type = NodeTypes.unchanged;
-      const propertyNode = { type, key, value };
-      return [...acc, propertyNode];
-    }
-    const value = { old: beforeData[key], new: afterData[key] };
-    const type = NodeTypes.updated;
-    const propertyNode = { type, key, value };
-    return [...acc, propertyNode];
   }, []);
-  return { type: NodeTypes.object, properties };
+  return properties;
 };
 
 export default buildDiffAst;
