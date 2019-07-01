@@ -32,7 +32,9 @@ const renderInPlainFormat = (properties) => {
         const newValue = stringify(newNode.value);
         return `Property '${propertyName}' was updated. From ${oldValue} to ${newValue}`;
       }
-      default: return '';
+      default: {
+        throw new Error('Unknown attribute type');
+      }
     }
   };
   const renderedProperties = properties

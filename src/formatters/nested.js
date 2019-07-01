@@ -37,7 +37,7 @@ const renderAst = (properties, depth = 0) => {
         return property.children.map(renderProperty).join('\n');
       }
       default: {
-        return '';
+        throw new Error('Unknown attribute type');
       }
     }
   };
