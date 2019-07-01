@@ -26,8 +26,8 @@ const buildDiffAst = (beforeData, afterData) => {
     const type = detectType(key, beforeData, afterData);
     switch (type) {
       case NodeTypes.complex: {
-        const value = buildDiffAst(beforeData[key], afterData[key]);
-        const propertyNode = { type, key, value };
+        const children = buildDiffAst(beforeData[key], afterData[key]);
+        const propertyNode = { type, key, children };
         return [...acc, propertyNode];
       }
       case NodeTypes.removed: {
@@ -52,8 +52,8 @@ const buildDiffAst = (beforeData, afterData) => {
         const newValue = afterData[key];
         const newType = NodeTypes.added;
         const newPropertyNode = { type: newType, key, value: newValue };
-        const children = [oldPropertyNode, newPropertyNode];
-        const propertyNode = { type, key, children };
+        const value = [oldPropertyNode, newPropertyNode];
+        const propertyNode = { type, key, value };
         return [...acc, propertyNode];
       }
       default: {

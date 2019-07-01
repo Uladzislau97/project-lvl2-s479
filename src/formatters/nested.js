@@ -18,8 +18,8 @@ const renderAst = (properties, depth = 0) => {
   const renderProperty = (property) => {
     switch (property.type) {
       case NodeTypes.complex: {
-        const value = renderAst(property.value, depth + 1);
-        return `${indentation}    ${property.key}: ${value}`;
+        const children = renderAst(property.children, depth + 1);
+        return `${indentation}    ${property.key}: ${children}`;
       }
       case NodeTypes.unchanged: {
         const value = stringify(property.value, depth + 1);
@@ -34,7 +34,7 @@ const renderAst = (properties, depth = 0) => {
         return `${indentation}  + ${property.key}: ${value}`;
       }
       case NodeTypes.updated: {
-        return property.children.map(renderProperty).join('\n');
+        return property.value.map(renderProperty).join('\n');
       }
       default: {
         throw new Error('Unknown attribute type');

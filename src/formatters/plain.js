@@ -12,7 +12,7 @@ const renderInPlainFormat = (properties) => {
     switch (property.type) {
       case NodeTypes.complex: {
         const newParents = [...parents, property.key];
-        return property.value
+        return property.children
           .filter(prop => prop.type !== NodeTypes.unchanged)
           .map(prop => renderProperty(prop, newParents));
       }
@@ -27,7 +27,7 @@ const renderInPlainFormat = (properties) => {
       }
       case NodeTypes.updated: {
         const propertyName = [...parents, property.key].join('.');
-        const [oldNode, newNode] = property.children;
+        const [oldNode, newNode] = property.value;
         const oldValue = stringify(oldNode.value);
         const newValue = stringify(newNode.value);
         return `Property '${propertyName}' was updated. From ${oldValue} to ${newValue}`;
