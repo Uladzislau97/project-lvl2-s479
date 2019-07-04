@@ -13,12 +13,12 @@ const stringify = (data, depth) => {
   return `{\n${properties}\n${indentation}}`;
 };
 
-const renderAst = (properties, depth = 0) => {
+const renderProperties = (properties, depth = 0) => {
   const indentation = ' '.repeat(indentLength * depth);
   const renderProperty = (property) => {
     switch (property.type) {
       case NodeTypes.complex: {
-        const children = renderAst(property.children, depth + 1);
+        const children = renderProperties(property.children, depth + 1);
         return `${indentation}    ${property.key}: ${children}`;
       }
       case NodeTypes.unchanged: {
@@ -34,7 +34,12 @@ const renderAst = (properties, depth = 0) => {
         return `${indentation}  + ${property.key}: ${value}`;
       }
       case NodeTypes.updated: {
-        return property.value.map(renderProperty).join('\n');
+        const oldValue = stringify(property.oldValue, depth + 1);
+        const newValue = stringify(property.newValue, depth + 1);
+        return [
+          `${indentation}  - ${property.key}: ${oldValue}`,
+          `${indentation}  + ${property.key}: ${newValue}`,
+        ];
       }
       default: {
         throw new Error('Unknown attribute type');
@@ -42,10 +47,10 @@ const renderAst = (properties, depth = 0) => {
     }
   };
   const renderedProperties = properties.map(renderProperty);
-  const finalContent = _.flatten(renderedProperties).join('\n');
-  return `{\n${finalContent}\n${indentation}}`;
+  const content = _.flatten(renderedProperties).join('\n');
+  return `{\n${content}\n${indentation}}`;
 };
 
-const renderInNestedFormat = data => renderAst(data);
+const renderInNestedFormat = data => renderProperties(data);
 
 export default renderInNestedFormat;

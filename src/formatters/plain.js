@@ -7,14 +7,12 @@ const stringify = (data) => {
   return data;
 };
 
-const renderInPlainFormat = (properties) => {
-  const renderProperty = (property, parents = []) => {
+const renderProperties = (properties, parents = []) => {
+  const renderProperty = (property) => {
     switch (property.type) {
       case NodeTypes.complex: {
         const newParents = [...parents, property.key];
-        return property.children
-          .filter(prop => prop.type !== NodeTypes.unchanged)
-          .map(prop => renderProperty(prop, newParents));
+        return renderProperties(property.children, newParents);
       }
       case NodeTypes.added: {
         const propertyName = [...parents, property.key].join('.');
@@ -27,9 +25,8 @@ const renderInPlainFormat = (properties) => {
       }
       case NodeTypes.updated: {
         const propertyName = [...parents, property.key].join('.');
-        const [oldNode, newNode] = property.value;
-        const oldValue = stringify(oldNode.value);
-        const newValue = stringify(newNode.value);
+        const oldValue = stringify(property.oldValue);
+        const newValue = stringify(property.newValue);
         return `Property '${propertyName}' was updated. From ${oldValue} to ${newValue}`;
       }
       default: {
@@ -37,11 +34,15 @@ const renderInPlainFormat = (properties) => {
       }
     }
   };
-  const renderedProperties = properties
+  return properties
     .filter(prop => prop.type !== NodeTypes.unchanged)
     .map(prop => renderProperty(prop));
-  const finalContent = _.flatten(renderedProperties).join('\n');
-  return finalContent;
+};
+
+const renderInPlainFormat = (data) => {
+  const renderedProperties = renderProperties(data);
+  const content = _.flatten(renderedProperties).join('\n');
+  return content;
 };
 
 export default renderInPlainFormat;

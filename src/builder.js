@@ -47,13 +47,10 @@ const buildDiffAst = (beforeData, afterData) => {
       }
       case NodeTypes.updated: {
         const oldValue = beforeData[key];
-        const oldType = NodeTypes.removed;
-        const oldPropertyNode = { type: oldType, key, value: oldValue };
         const newValue = afterData[key];
-        const newType = NodeTypes.added;
-        const newPropertyNode = { type: newType, key, value: newValue };
-        const value = [oldPropertyNode, newPropertyNode];
-        const propertyNode = { type, key, value };
+        const propertyNode = {
+          type, key, oldValue, newValue,
+        };
         return [...acc, propertyNode];
       }
       default: {
