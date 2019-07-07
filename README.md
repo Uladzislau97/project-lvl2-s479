@@ -1,26 +1,26 @@
-# Gendiff
+# Gendiff JS
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/c3397841f95a9e654d53/maintainability)](https://codeclimate.com/github/Uladzislau97/project-lvl2-s479/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/c3397841f95a9e654d53/test_coverage)](https://codeclimate.com/github/Uladzislau97/project-lvl2-s479/test_coverage) [![Build Status](https://travis-ci.org/Uladzislau97/project-lvl2-s479.svg?branch=master)](https://travis-ci.org/Uladzislau97/project-lvl2-s479)
+[![Maintainability](https://api.codeclimate.com/v1/badges/017b81cb618a5b237c29/maintainability)](https://codeclimate.com/github/Uladzislau97/gendiff-js/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/017b81cb618a5b237c29/test_coverage)](https://codeclimate.com/github/Uladzislau97/gendiff-js/test_coverage) [![Build Status](https://travis-ci.org/Uladzislau97/gendiff-js.svg?branch=master)](https://travis-ci.org/Uladzislau97/gendiff-js)
 
 ##### Console tool that compares two configuration files and shows a difference.
 #
 ##### INSTALLATION
-[![asciicast](https://asciinema.org/a/66pBauJ1coKy4qYnL5LJpXfew.svg)](https://asciinema.org/a/66pBauJ1coKy4qYnL5LJpXfew)
+[![asciicast](https://asciinema.org/a/caus7iKaHYU09jFOm43xITCAf.svg)](https://asciinema.org/a/caus7iKaHYU09jFOm43xITCAf)
 #
 ##### COMPARING JSON FILES
-[![asciicast](https://asciinema.org/a/g19thvwCMYVF8KwAN2ByoAqeK.svg)](https://asciinema.org/a/g19thvwCMYVF8KwAN2ByoAqeK)
+[![asciicast](https://asciinema.org/a/axggNhbNMWHvj5BZvhfFfU6vy.svg)](https://asciinema.org/a/axggNhbNMWHvj5BZvhfFfU6vy)
 #
 ##### COMPARING YAML FILES
-[![asciicast](https://asciinema.org/a/HyLmJo1Z7LdFm9VJ3Gitimxqz.svg)](https://asciinema.org/a/HyLmJo1Z7LdFm9VJ3Gitimxqz)
+[![asciicast](https://asciinema.org/a/FTIQGji03wvBtrvk6kSfDCD3n.svg)](https://asciinema.org/a/FTIQGji03wvBtrvk6kSfDCD3n)
 #
 ##### COMPARING INI FILES
-[![asciicast](https://asciinema.org/a/lIgbaiwhFarOHceASFW1tN8RF.svg)](https://asciinema.org/a/lIgbaiwhFarOHceASFW1tN8RF)
+[![asciicast](https://asciinema.org/a/fTRnvP9ZdTwpnUUq4n9cNP1Ja.svg)](https://asciinema.org/a/fTRnvP9ZdTwpnUUq4n9cNP1Ja)
 #
 ##### COMPARING FILES WITH NESTINGS
-[![asciicast](https://asciinema.org/a/s0n2X2nG4BImgy9mOSMtYOtQL.svg)](https://asciinema.org/a/s0n2X2nG4BImgy9mOSMtYOtQL)
+[![asciicast](https://asciinema.org/a/37BHvmsZqBQqcL97WTrRLkqsK.svg)](https://asciinema.org/a/37BHvmsZqBQqcL97WTrRLkqsK)
 #
 ##### DIFF IN PLAIN FORMAT
-[![asciicast](https://asciinema.org/a/sfL6XCniluIugyKTxt9CC1efp.svg)](https://asciinema.org/a/sfL6XCniluIugyKTxt9CC1efp)
+[![asciicast](https://asciinema.org/a/dc3Xlk9cKP2XRUpzvVq9flUil.svg)](https://asciinema.org/a/dc3Xlk9cKP2XRUpzvVq9flUil)
 #
 ##### DIFF IN JSON FORMAT
-[![asciicast](https://asciinema.org/a/YS3iYD8gh043XxdCx5rwGr5kL.svg)](https://asciinema.org/a/YS3iYD8gh043XxdCx5rwGr5kL)
+[![asciicast](https://asciinema.org/a/CqlriC7Hs52zSiRFDO4jk0qxc.svg)](https://asciinema.org/a/CqlriC7Hs52zSiRFDO4jk0qxc)
