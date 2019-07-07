@@ -30,7 +30,7 @@ const renderProperties = (properties, parents = []) => {
         return `Property '${propertyName}' was updated. From ${oldValue} to ${newValue}`;
       }
       default: {
-        throw new Error('Unknown attribute type');
+        throw new Error(`Unknown attribute type: ${property.type}`);
       }
     }
   };

@@ -54,7 +54,7 @@ const buildDiffAst = (beforeData, afterData) => {
         return [...acc, propertyNode];
       }
       default: {
-        throw new Error('Unknown attribute type');
+        throw new Error(`Unknown attribute type: ${type}`);
       }
     }
   }, []);

@@ -42,7 +42,7 @@ const renderProperties = (properties, depth = 0) => {
         ];
       }
       default: {
-        throw new Error('Unknown attribute type');
+        throw new Error(`Unknown attribute type: ${property.type}`);
       }
     }
   };
