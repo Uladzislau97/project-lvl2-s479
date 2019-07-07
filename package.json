@@ -1,13 +1,14 @@
 {
-  "name": "gendiff",
-  "version": "1.6.1",
+  "name": "gendiff-js",
+  "version": "2.0.0",
   "description": "Compares two configuration files and shows a difference.",
   "keywords": [
     "gendiff",
+    "gendiff-js",
     "console utility"
   ],
   "bin": {
-    "gendiff": "dist/bin/gendiff.js"
+    "gendiff-js": "dist/bin/gendiff.js"
   },
   "files": [
     "dist"
@@ -19,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github-personal:Uladzislau97/project-lvl2-s479.git"
+    "url": "git@github-personal:Uladzislau97/gendiff-js.git"
   },
   "author": "Uladzislau Vasilyeu",
   "license": "ISC",

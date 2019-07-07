@@ -4,7 +4,7 @@ import path from 'path';
 import gendiff from '..';
 
 program
-  .version('1.6.1')
+  .version('2.0.0')
   .arguments('<firstConfig> <secondConfig>')
   .action((firstConfigPath, secondConfigPath) => {
     const firstConfigFullPath = path.resolve(firstConfigPath);
