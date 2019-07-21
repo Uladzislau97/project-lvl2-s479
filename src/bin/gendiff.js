@@ -4,7 +4,7 @@ import path from 'path';
 import gendiff from '..';
 
 program
-  .command('gendiff-js')
+  .name('gendiff-js')
   .version('2.0.2')
   .arguments('<firstConfig> <secondConfig>')
   .action((firstConfigPath, secondConfigPath) => {
